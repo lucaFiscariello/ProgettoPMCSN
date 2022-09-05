@@ -1,0 +1,18 @@
+{
+  "totalId" :  ["id1","id2"],
+  "id1" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 0,
+    "meanService" : 1.0,
+    "totalConnection" : ["id2","end"],
+    "connection": {"id2": 0.3 , "end":  0.7}
+  },
+
+  "id2" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 1,
+    "meanService" : 1.0,
+    "totalConnection" :  ["end"],
+    "connection": {"end":  1.0}
+  }
+}
