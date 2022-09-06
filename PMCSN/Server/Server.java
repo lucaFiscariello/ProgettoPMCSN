@@ -9,9 +9,12 @@ public interface Server {
     public int getStreamSimulation();
 
     public double getMeanService();
+    public double getMeanArrival();
 
     public int getJobNumbers();
 
     public String getId();
+
+    public void printStats();
 }
 

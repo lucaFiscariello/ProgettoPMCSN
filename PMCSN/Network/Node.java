@@ -2,74 +2,30 @@ package Network;
 
 import Generator.Rng;
 import Server.Server;
-import Server.SingleServer;
+import Simulation.Event.Event;
+import Simulation.Handler.HandlerEvent;
 
 import java.util.HashMap;
 
+import static java.lang.Math.abs;
+
 public class Node {
-    private int initialjobNumbers ;
-    private int streamSimulation;
-    private double meanService;
-    private String id;
-    private Rng rng;
-    private Server server;
 
+    private String idNode;
     private HashMap<String,Double> mapNextNodes ;
+    private HandlerEvent handlerEvent;
+    private Rng rng;
 
-    public Node(int initialjobNumbers, int streamSimulation, double meanService, String id, HashMap<String, Double> mapNextNodes) {
-        this.initialjobNumbers = initialjobNumbers;
-        this.streamSimulation = streamSimulation;
-        this.meanService = meanService;
-        this.id = id;
+    public Node(HashMap<String, Double> mapNextNodes, HandlerEvent handlerEvent,String idNode) {
         this.mapNextNodes = mapNextNodes;
-
+        this.handlerEvent = handlerEvent;
+        this.idNode= idNode;
         this.rng = new Rng();
-        this.server = new SingleServer(streamSimulation, meanService,id);
-
     }
 
-    public int getInitialjobNumbers() {
-        return initialjobNumbers;
-    }
-
-    public void setInitialjobNumbers(int initialjobNumbers) {
-        this.initialjobNumbers = initialjobNumbers;
-    }
-
-    public int getStreamSimulation() {
-        return streamSimulation;
-    }
-
-    public Server getServer() {
-        return this.server;
-    }
-
-    public void setStreamSimulation(int streamSimulation) {
-        this.streamSimulation = streamSimulation;
-    }
-
-    public double getMeanService() {
-        return meanService;
-    }
-
-    public void setMeanService(double meanService) {
-        this.meanService = meanService;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public HashMap<String, Double> getMapNextNodes() {
         return mapNextNodes;
-    }
-
-    public void setMapNextNodes(HashMap<String, Double> mapNextNodes) {
-        this.mapNextNodes = mapNextNodes;
     }
 
     public String getNextServerId(){
@@ -82,7 +38,7 @@ public class Node {
         String nextNode = null;
         String nextNodeMax = null;
 
-        rng.selectStream(this.id.hashCode());
+        rng.selectStream((abs(this.mapNextNodes.hashCode())));
         perc = rng.random();
 
         /*Genero un numero random compreso tra 0 e 1 e lo confronto con le probabilità di routing
@@ -110,6 +66,18 @@ public class Node {
 
         return (nextNode==null)? nextNodeMax:nextNode;
 
+    }
+
+    public void handleEvent(Event event,double currentTime){
+         this.handlerEvent.handle(currentTime,event);
+    }
+
+    public Server getServer(){
+        return this.handlerEvent.getServer();
+    }
+
+    public String getId(){
+        return this.idNode;
     }
 
 }
