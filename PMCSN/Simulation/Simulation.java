@@ -4,7 +4,9 @@ import Simulation.Event.BinaryHeap;
 import Simulation.Event.Event;
 
 public class Simulation {
-    public static double currentTime=0;
+
+    public static boolean stopSimulation= false;
+    public static double currentTime=0.0;
     public static BinaryHeap allEvents = new BinaryHeap(20000);
 
     public static void advanceTime(double nextTime){
@@ -17,11 +19,18 @@ public class Simulation {
 
     public static void insertEvent(Event e){
         allEvents.insertEvent(e);
-        System.out.println("Evento inserito: " + e.getTimeNext() + " " + e.getTypeEvent() +" "+ e.getNode().getId());
     }
 
     public static Event extractMinEvent(){
         return allEvents.extractMin();
+    }
+
+    public static void stopSimulation(){
+        stopSimulation = true;
+    }
+
+    public static int getRemainEvents(){
+        return allEvents.getHeapSize();
     }
 
 }

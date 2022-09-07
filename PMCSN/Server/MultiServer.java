@@ -41,32 +41,41 @@ public class MultiServer implements Server{
 
     public void processArrival(double timeNext, double timeCurrent) {
 
-        if (jobNumbers > 0)                              /* update integrals  */
+        if (jobNumbers >= 0) {                           /* update integrals  */
             areaNode += (timeNext - timeCurrent) * jobNumbers;
 
-        // Se ci sono server liberi è possibile processare un nuovo job
-        if (this.hasAnyServerIdle()) {
-            int s = this.findOneIdle();
-            idleServer[s] = false;
-        }
+            // Se ci sono server liberi è possibile processare un nuovo job
+            if (this.hasAnyServerIdle()) {
+                int s = this.findOneIdle();
+                idleServer[s] = false;
+            }
 
-        this.jobNumbers++;
+            this.jobNumbers++;
+        }
     }
 
 
     public void processCompletition(double timeNext, double timeCurrent){
-        this.jobNumbers--;
-        this.departedJobs++;
 
-        //Processo il job e libero un server
-        if (jobNumbers <= serverNumber) {
-            int s = this.findOneNotIdle();
-            sumService[s] += timeNext-timeCurrent;
-            served[s]++;
+        if (jobNumbers > 0)   {                           /* update integrals  */
+            areaNode += (timeNext - timeCurrent) * jobNumbers;
 
-            idleServer[s] = true;
+            //Processo il job e libero un server
+            if (this.hasAnyServerNotIdle()) {
+                int s = this.findOneNotIdle();
+                sumService[s] += timeNext - timeCurrent;
+                served[s]++;
+
+                idleServer[s] = true;
+            }
+
+            lastTime = timeNext;
+            this.jobNumbers--;
+            this.departedJobs++;
 
         }
+
+
 
     }
 
@@ -100,6 +109,16 @@ public class MultiServer implements Server{
         return  serversIdle;
     }
 
+    private int getNotIdleServerNumber() {
+        int serversNotIdle=0;
+        for(int i=0; i<serverNumber;i++){
+            if(!this.idleServer[i])
+                serversNotIdle = serversNotIdle+1;
+        }
+
+        return  serversNotIdle;
+    }
+
     private int findOneNotIdle() {
         for(int i=0; i<serverNumber;i++){
             if(!this.idleServer[i])
@@ -110,17 +129,26 @@ public class MultiServer implements Server{
     }
 
     private int findOneIdle() {
+        int minPos = -1;
+        double minservice = Integer.MAX_VALUE;
+
         for(int i=0; i<serverNumber;i++){
-            if(this.idleServer[i])
-                return i;
+            if(this.idleServer[i] && sumService[i]<=minservice){
+                minservice= sumService[i];
+                minPos = i;
+            }
         }
 
-        return -1;
+        return minPos;
     }
 
     public boolean hasAnyServerIdle(){
         return this.getIdleServerNumber() > 0;
     }
+    public boolean hasAnyServerNotIdle(){
+        return this.getNotIdleServerNumber() > 0;
+    }
+
 
     public void printStats(){
         System.out.println("Server "+this.id);
@@ -136,11 +164,11 @@ public class MultiServer implements Server{
         System.out.println("   average # in the queue .. = "+areaNode / Simulation.getCurrentTime()+"\n" );
 
         for (int i = 0; i < serverNumber; i++){
-            areaNode -= sumService[i];              /* averages for the queue   */
-
             System.out.println("   average service time .... = "+sumService[i] / served[i]+"\n" );
             System.out.println("   utilization ............. = "+sumService[i] / Simulation.getCurrentTime()+"\n" );
         }
+
+
 
     }
 }

@@ -23,7 +23,7 @@ public class MultiServerHandler implements HandlerEvent{
 
     public void handle(double currentTime, Event event){
 
-        Event nextEvent = null;
+        Event nextEvent;
         double nextTime;
         Node nextNode;
 
@@ -31,10 +31,13 @@ public class MultiServerHandler implements HandlerEvent{
         if(event.getTypeEvent().equals(Event.Type.arrival)) {
             multiserver.processArrival(event.getTimeNext(), currentTime);
 
+            //avanzo tempo simulazione
+            Simulation.advanceTime(event.getTimeNext());
+
             //Se arriva un nuovo job al primo centro creo un nuovo arrivo
-            if(multiserver.getId().equals("id1")){
+            if(multiserver.getId().equals("id1")  && !Simulation.stopSimulation){
                 rngs.selectStream(multiserver.getStreamSimulation());
-                nextTime = currentTime + rngs.exponential(multiserver.getMeanArrival());
+                nextTime = Simulation.getCurrentTime() + rngs.exponential(multiserver.getMeanArrival());
                 nextNode = network.getNodeById(multiserver.getId());
                 nextEvent = new Event(nextNode, Event.Type.arrival,nextTime);
 
@@ -44,7 +47,7 @@ public class MultiServerHandler implements HandlerEvent{
             // Se ci sono server liberi è possibile processare un nuovo job
             if(multiserver.hasAnyServerIdle()){
                 rngs.selectStream(multiserver.getStreamSimulation());
-                nextTime = currentTime+ rngs.exponential(multiserver.getMeanService());
+                nextTime = Simulation.getCurrentTime() + rngs.exponential(multiserver.getMeanService());
                 nextNode = network.getNodeById(multiserver.getId());
                 nextEvent = new Event(nextNode, Event.Type.completion,nextTime);
 
@@ -55,22 +58,24 @@ public class MultiServerHandler implements HandlerEvent{
 
         //processo un completamento
         else{
+
             multiserver.processCompletition(event.getTimeNext(),currentTime);
+
+            //avanzo tempo simulazione
+            Simulation.advanceTime(event.getTimeNext());
 
             //Dopo aver servito il job lo inoltro a un altro centro. Se il job esce dalla rete non faccio nessun operazione
             nextNode = network.getNextServer(multiserver.getId());
-            if(nextNode != null){
-                rngs.selectStream(multiserver.getStreamSimulation());
-                nextTime = currentTime+ rngs.exponential(multiserver.getMeanService());
-                nextEvent = new Event(nextNode, Event.Type.arrival,nextTime);
 
+            if(nextNode != null){
+                nextEvent = new Event(nextNode, Event.Type.arrival,Simulation.getCurrentTime());
                 Simulation.insertEvent(nextEvent);
             }
 
             //Se il centro contiene altri job in attesa genero un nuovo evento di completamento
             if(multiserver.getJobNumbers() > 0){
                 rngs.selectStream(multiserver.getStreamSimulation());
-                nextTime = currentTime + rngs.exponential(multiserver.getMeanService());
+                nextTime = Simulation.getCurrentTime() + rngs.exponential(multiserver.getMeanService());
                 nextNode = network.getNodeById(multiserver.getId());
                 nextEvent = new Event(nextNode, Event.Type.completion,nextTime);
 
@@ -78,9 +83,6 @@ public class MultiServerHandler implements HandlerEvent{
 
             }
         }
-
-        //avanzo tempo simulazione
-        Simulation.advanceTime(event.getTimeNext());
 
     }
 

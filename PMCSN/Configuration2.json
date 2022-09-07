@@ -3,11 +3,13 @@
   "id1" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 0,
-    "meanService" : 20.0,
-    "meanArrival" : 30.0,
+    "meanService" : 30.0,
+    "meanArrival" : 40.0,
     "totalConnection" : ["id2","end"],
     "connection": {"id2": 0.3 , "end":  0.7},
-    "type": "single server"
+    "type": "multi server",
+    "numberServer" : 3
+
   },
 
   "id2" : {
@@ -16,7 +18,6 @@
     "meanService" : 5.0,
     "totalConnection" :  ["end"],
     "connection": {"end":  1.0},
-    "type": "multi server",
-    "numberServer" : 3
+    "type": "single server"
   }
 }

@@ -100,7 +100,7 @@ public class Network {
     }
 
     public Event getFirstEvent(){
-        return new Event(allNode.get("id1"), Event.Type.arrival,0.0);
+        return new Event(allNode.get("id1"), Event.Type.arrival,1.0);
     }
 
 
