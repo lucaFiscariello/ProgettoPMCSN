@@ -1,5 +1,7 @@
 package Server;
 
+import java.io.IOException;
+
 public interface Server {
 
     public void processArrival(double timeNext, double timeCurrent);
@@ -15,6 +17,15 @@ public interface Server {
 
     public String getId();
 
-    public void printStats();
+    public void printStats() throws IOException;
+
+    public Distribution getDistribution();
+
+    public enum Distribution{
+        Exponential,
+        Deterministic,
+        KErlang,
+        Pareto;
+    }
 }
 

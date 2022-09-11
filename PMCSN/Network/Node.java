@@ -28,45 +28,32 @@ public class Node {
         return mapNextNodes;
     }
 
-    public String getNextServerId(){
+    public String getNextServerId() {
+        double sumPerc=0;
+        double nodePerc;
         double perc;
-        double prevPerc = 1;
-        double minPerc = 1;
-        double maxPerc = 0;
-        double actualPerc;
-
-        String nextNode = null;
-        String nextNodeMax = null;
 
         rng.selectStream((abs(this.mapNextNodes.hashCode())));
         perc = rng.random();
+
 
         /*Genero un numero random compreso tra 0 e 1 e lo confronto con le probabilità di routing
           per individuare il centro succesivo. Ad esempio se le probabilità di routing sono solo due
           con percentuali 0.7 e 0.3 e se viene generato come numero random 0.5 un job verrà inoltrato al
           centro con probabilità di routing pari a 0.7 */
-        for (String idNode: mapNextNodes.keySet()){
-            actualPerc = mapNextNodes.get(idNode);
+        for (String idNode : mapNextNodes.keySet()) {
+            nodePerc = mapNextNodes.get(idNode);
 
-            if( actualPerc<minPerc)
-                minPerc = actualPerc;
+            sumPerc += nodePerc;
 
-            if( actualPerc>maxPerc){
-                maxPerc = actualPerc;
-                nextNodeMax = idNode;
-            }
-
-            if(perc<minPerc && actualPerc<prevPerc){
-                 nextNode = idNode;
-            }
-
-            prevPerc = actualPerc;
+            if (perc <= sumPerc)
+                return idNode;
 
         }
 
-        return (nextNode==null)? nextNodeMax:nextNode;
-
+        return null;
     }
+
 
     public void handleEvent(Event event,double currentTime){
          this.handlerEvent.handle(currentTime,event);
@@ -79,5 +66,7 @@ public class Node {
     public String getId(){
         return this.idNode;
     }
+
+
 
 }

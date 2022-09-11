@@ -1,0 +1,18 @@
+Server primo grado monocratico
+
+for 691459 jobs
+
+   average interarrival time = 0.061484599167381
+
+   average service time .... = 16.181992306311965
+
+   average delay ........... = 189.414141706265
+
+   average wait ............ = 205.51551936337424
+
+   utilization ............. = 0.11047875253791695
+
+   average # in the queue .. = 3078.8830054152104
+
+   average # in the node ... = 3340.60717017754
+

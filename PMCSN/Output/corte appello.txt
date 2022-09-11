@@ -1,0 +1,18 @@
+Server corte appello
+
+for 11266 jobs
+
+   average interarrival time = 3.771763034884516
+
+   average service time .... = 69.37093332194017
+
+   average delay ........... = 248.88198299945608
+
+   average wait ............ = 316.6578897753123
+
+   utilization ............. = 0.06064119135576742
+
+   average # in the queue .. = 65.9139832945623
+
+   average # in the node ... = 83.86377593586957
+

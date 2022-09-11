@@ -180,4 +180,25 @@ public class Rngs {
     double student(long n) {
         return (normal(0.0, 1.0) / sqrt(chisquare(n) / n));
     }
+
+    /* ===========================================
+     * Returns a pareto distributed real number.
+     * NOTE: use n t.c. 0<n/(n-1)<2
+     * ===========================================
+     */
+    public double pareto(double n) {
+        double a = n*1.1/2.1;
+        return (a/Math.pow(rng.random(), 1/2.1));
+    }
+
+    /* ===========================================
+     * Returns a deterministic distributed real number.
+     * ===========================================
+     */
+    public double deterministic(double n) {
+        return (n);
+    }
+
+
+
 }

@@ -1,0 +1,18 @@
+Server tribunale fisico22
+
+for 5493 jobs
+
+   average interarrival time = 7.658921634405248
+
+   average wait ............ = 128.1999786179672
+
+   average delay ........... = 127.19997861796763
+
+   average service time .... = 1.0
+
+   average # in the node ... = 16.55434127204635
+
+   average # in the queue .. = 16.425212223426378
+
+   utilization ............. = 0.12912904862003047
+

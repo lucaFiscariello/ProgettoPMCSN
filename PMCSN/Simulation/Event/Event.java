@@ -1,7 +1,6 @@
 package Simulation.Event;
 
 import Network.Node;
-import Server.Server;
 
 public class Event {
 
@@ -13,6 +12,8 @@ public class Event {
     private Node nextNode;
     private Type typeEvent;
     private double timeNext;
+    private double service;
+    private boolean feedbackFirstNode = false;
 
     public Event(Node nextNode, Type typeEvent, double time) {
         this.nextNode = nextNode;
@@ -32,10 +33,31 @@ public class Event {
         return timeNext;
     }
 
-    public void setTime(long time) {
-        this.timeNext = time;
+    public void setFeedbackFirstNode() {
+        this.feedbackFirstNode = true;
     }
 
+    public boolean isFeedbackFirstNode() {
+        return feedbackFirstNode;
+    }
+
+    public void setService(double service){
+        this.service = service;
+    }
+
+    public double getService(){
+        return this.service;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "nextNode=" + nextNode.getId() +
+                ", typeEvent=" + typeEvent +
+                ", timeNext=" + timeNext +
+                ", feedbackFirstNode=" + feedbackFirstNode +
+                '}';
+    }
 }
 
 

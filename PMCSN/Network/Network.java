@@ -2,6 +2,7 @@ package Network;
 
 import Generator.Rngs;
 import Server.Server;
+import Server.Server.Distribution;
 import Server.SingleServer;
 import Server.MultiServer;
 import Simulation.Event.Event;
@@ -19,9 +20,11 @@ import java.util.Iterator;
 
 public class Network {
     private HashMap<String,Node> allNode;
+    private int jobsArrived;
 
     public Network(String configurationPath, Rngs rngs) throws IOException, ParseException{
         this.allNode = new HashMap();
+        this.jobsArrived =0;
 
         //Leggo file configurazione
         JSONParser parser = new JSONParser();
@@ -49,18 +52,19 @@ public class Network {
             long streamSimulation = (long) jsonNode.get("streamSimulation");
             double meanService = (double) jsonNode.get("meanService");
             String typeServer = (String) jsonNode.get("type");
+            Distribution distribution = Distribution.valueOf((String) jsonNode.get("distribution"));
 
             //Solo per il primo centro sono interessato a conoscere il tasso di arrivo medio
             if(jsonNode.containsKey("meanArrival"))
                 meanArrival = (double) jsonNode.get("meanArrival");
 
             if(typeServer.equals("single server")){
-                server = new SingleServer((int)initialjobNumbers,(int)streamSimulation, meanService,idNode,meanArrival);
+                server = new SingleServer((int)initialjobNumbers,(int)streamSimulation, meanService,idNode,meanArrival,distribution);
                 handlerEvent = new SingleServerHandler(server,rngs ,this);
             }
             else{
                 long numberServer = (long) jsonNode.get("numberServer");
-                server = new MultiServer((int)initialjobNumbers,(int)streamSimulation, meanService,idNode,meanArrival,(int)numberServer);
+                server = new MultiServer((int)initialjobNumbers,(int)streamSimulation, meanService,idNode,meanArrival,(int)numberServer,distribution);
                 handlerEvent = new MultiServerHandler(server,rngs ,this);
             }
 
@@ -99,8 +103,11 @@ public class Network {
         return this.allNode;
     }
 
-    public Event getFirstEvent(){
+    public Event getFirstEventArrival(){
         return new Event(allNode.get("id1"), Event.Type.arrival,1.0);
+    }
+    public Event getFirstEventCompletition(){
+        return new Event(allNode.get("id1"), Event.Type.completion,1.1);
     }
 
 
@@ -109,10 +116,18 @@ public class Network {
         //Nodo che deve gestire l'evento
         Node node = event.getNode();
         node.handleEvent(event,currentTime);
+
+        if(node.getId().equals("id1") && event.getTypeEvent().equals(Event.Type.completion))
+            this.jobsArrived++;
+
     }
 
     public Node getNodeById(String id){
         return this.allNode.get(id);
+    }
+
+    public int getJobsArrived(){
+        return this.jobsArrived;
     }
 
 

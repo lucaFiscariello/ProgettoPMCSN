@@ -1,0 +1,18 @@
+Server tribunale fisico154
+
+for 1687 jobs
+
+   average interarrival time = 24.755373935390107
+
+   average wait ............ = 1.1878021570192245
+
+   average delay ........... = 0.18780215701922448
+
+   average service time .... = 1.0
+
+   average # in the node ... = 0.04710570895898598
+
+   average # in the queue .. = 0.007447834387350917
+
+   utilization ............. = 0.03965787457163506
+

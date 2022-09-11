@@ -20,11 +20,6 @@ public class SingleServerHandler implements HandlerEvent{
         this.singleServer = singleServer;
     }
 
-    public SingleServerHandler(Network network){
-        this.rngs = null;
-        this.network = network;
-    }
-
     public void handle(double currentTime, Event event){
 
         Event nextEvent ;
@@ -39,7 +34,7 @@ public class SingleServerHandler implements HandlerEvent{
             Simulation.advanceTime(event.getTimeNext());
 
             //Se arriva un nuovo job al primo centro creo un nuovo arrivo
-            if(singleServer.getId().equals("id1") && !Simulation.stopSimulation){
+            if(singleServer.getId().equals("id1") && !Simulation.stopSimulation && !event.isFeedbackFirstNode()){
                 rngs.selectStream(singleServer.getStreamSimulation());
 
                 nextTime = Simulation.getCurrentTime() + rngs.exponential(singleServer.getMeanArrival());
@@ -52,7 +47,7 @@ public class SingleServerHandler implements HandlerEvent{
             //Se il server ha un solo job posso generare l'evento del suo completamento
             if(singleServer.getJobNumbers() == 1){
                 rngs.selectStream(singleServer.getStreamSimulation());
-                nextTime = Simulation.getCurrentTime()+ rngs.exponential(singleServer.getMeanService());
+                nextTime = Simulation.getCurrentTime()+ this.getService();
                 nextNode = network.getNodeById(singleServer.getId());
                 nextEvent = new Event(nextNode, Event.Type.completion,nextTime);
 
@@ -72,13 +67,17 @@ public class SingleServerHandler implements HandlerEvent{
             nextNode = network.getNextServer(singleServer.getId());
             if(nextNode != null){
                 nextEvent = new Event(nextNode, Event.Type.arrival,Simulation.getCurrentTime());
+
+                if(nextNode.getId().equals("id1"))
+                    nextEvent.setFeedbackFirstNode();
+
                 Simulation.insertEvent(nextEvent);
             }
 
             //Se il centro contiene altri job in attesa genero un nuovo evento di completamento
             if(singleServer.getJobNumbers() > 0){
-                rngs.selectStream(singleServer.getStreamSimulation());
-                nextTime = Simulation.getCurrentTime() + rngs.exponential(singleServer.getMeanService());
+
+                nextTime = Simulation.getCurrentTime() + getService();
                 nextNode = network.getNodeById(singleServer.getId());
                 nextEvent = new Event(nextNode, Event.Type.completion,nextTime);
 
@@ -92,5 +91,22 @@ public class SingleServerHandler implements HandlerEvent{
 
     public Server getServer(){
         return this.singleServer;
+    }
+
+    private double getService(){
+
+        double service=0;
+
+        rngs.selectStream(singleServer.getStreamSimulation());
+
+        switch (this.singleServer.getDistribution()){
+            case Exponential -> service = rngs.exponential(singleServer.getMeanService());
+            case Pareto -> service = rngs.pareto(singleServer.getMeanService());
+            case Deterministic -> service = rngs.deterministic(singleServer.getMeanService());
+            case KErlang -> service = rngs.erlang(3,singleServer.getMeanService());
+
+        }
+
+        return service;
     }
 }

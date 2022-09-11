@@ -1,0 +1,18 @@
+Server corte assise
+
+for 1258 jobs
+
+   average interarrival time = 33.62851774525054
+
+   average service time .... = 203.30829122496684
+
+   average delay ........... = 694.0571655568456
+
+   average wait ............ = 877.7938332382437
+
+   utilization ............. = 0.018356890524455258
+
+   average # in the queue .. = 20.525334130192647
+
+   average # in the node ... = 25.958973725431417
+

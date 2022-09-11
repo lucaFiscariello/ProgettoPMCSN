@@ -7,7 +7,7 @@ public class Simulation {
 
     public static boolean stopSimulation= false;
     public static double currentTime=0.0;
-    public static BinaryHeap allEvents = new BinaryHeap(20000);
+    public static BinaryHeap allEvents = new BinaryHeap(200000000);
 
     public static void advanceTime(double nextTime){
         currentTime=nextTime;
@@ -19,6 +19,7 @@ public class Simulation {
 
     public static void insertEvent(Event e){
         allEvents.insertEvent(e);
+
     }
 
     public static Event extractMinEvent(){

@@ -1,11 +1,15 @@
 package Server;
-
 import Simulation.Simulation;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class MultiServer implements Server{
     private double areaNode;
     private int jobNumbers;
-    private double lastTime;
+    private double lastArrivalTime;
     private int serverNumber;
     private int departedJobs;
     private double[] sumService;
@@ -15,12 +19,16 @@ public class MultiServer implements Server{
     private double meanService;
     private double meanArrival;
     private int streamSimulation;
+    private double lastEventTime ;
+    private Distribution distribution;
 
-    public MultiServer(int jobNumbers,int streamSimulation,double meanService,String id,double meanArrival,int serverNumber){
+
+    public MultiServer(int jobNumbers,int streamSimulation,double meanService,String id,double meanArrival,int serverNumber,Distribution distribution){
         this.jobNumbers = jobNumbers;
         this.departedJobs= 0;
         this.areaNode = 0;
-        this.lastTime=0;
+        this.lastArrivalTime=0;
+        lastEventTime = 0.0;
         this.streamSimulation = streamSimulation;
         this.meanService= meanService;
         this.meanArrival = meanArrival;
@@ -30,6 +38,8 @@ public class MultiServer implements Server{
         this.served = new int[serverNumber];
         this.idleServer = new boolean[serverNumber];
         this.sumService = new double[serverNumber];
+
+        this.distribution = distribution;
 
         for(int i=0; i<serverNumber;i++){
             this.served[i] = 0;
@@ -42,7 +52,7 @@ public class MultiServer implements Server{
     public void processArrival(double timeNext, double timeCurrent) {
 
         if (jobNumbers >= 0) {                           /* update integrals  */
-            areaNode += (timeNext - timeCurrent) * jobNumbers;
+            areaNode += (timeNext - lastEventTime) * jobNumbers;
 
             // Se ci sono server liberi è possibile processare un nuovo job
             if (this.hasAnyServerIdle()) {
@@ -51,29 +61,34 @@ public class MultiServer implements Server{
             }
 
             this.jobNumbers++;
+            lastEventTime = timeNext;
+            lastArrivalTime = timeNext;
+
         }
     }
 
 
-    public void processCompletition(double timeNext, double timeCurrent){
+    public void processCompletition(double timeNext, double service){
 
         if (jobNumbers > 0)   {                           /* update integrals  */
-            areaNode += (timeNext - timeCurrent) * jobNumbers;
+            areaNode += service * jobNumbers;
 
             //Processo il job e libero un server
             if (this.hasAnyServerNotIdle()) {
                 int s = this.findOneNotIdle();
-                sumService[s] += timeNext - timeCurrent;
-                served[s]++;
 
+                sumService[s] += service;
+                served[s]++;
                 idleServer[s] = true;
             }
 
-            lastTime = timeNext;
             this.jobNumbers--;
             this.departedJobs++;
+            lastEventTime = timeNext;
 
         }
+
+
 
 
 
@@ -149,24 +164,41 @@ public class MultiServer implements Server{
         return this.getNotIdleServerNumber() > 0;
     }
 
+    public Distribution getDistribution(){
+        return this.distribution;
+    }
 
-    public void printStats(){
-        System.out.println("Server "+this.id);
-        System.out.println("\nfor "+departedJobs+" jobs\n");
-        System.out.println("   average interarrival time = "+lastTime / departedJobs+"\n" );
-        System.out.println("   average wait ............ = "+areaNode / departedJobs+"\n" );
-        System.out.println("   average # in the node ... = "+areaNode / Simulation.getCurrentTime()+"\n" );
+    public void printStats() throws IOException {
+
+        FileWriter fileout = new FileWriter("Output\\"+this.id+".txt");
+        BufferedWriter filebuf = new BufferedWriter(fileout);
+        PrintWriter printout = new PrintWriter(filebuf);
+
+        double areaQueue = areaNode;
+
 
         for (int i = 0; i < serverNumber; i++)            /* adjust area to calculate */
-            areaNode -= sumService[i];              /* averages for the queue   */
+            areaQueue -= sumService[i];              /* averages for the queue   */
 
-        System.out.println("   average delay ........... = "+areaNode / departedJobs+"\n" );
-        System.out.println("   average # in the queue .. = "+areaNode / Simulation.getCurrentTime()+"\n" );
+        double sumServiceTime = 0.0;
+        double sumUtilization = 0.0;
 
         for (int i = 0; i < serverNumber; i++){
-            System.out.println("   average service time .... = "+sumService[i] / served[i]+"\n" );
-            System.out.println("   utilization ............. = "+sumService[i] / Simulation.getCurrentTime()+"\n" );
+            sumServiceTime += sumService[i] / served[i];
+            sumUtilization += sumService[i] / Simulation.getCurrentTime();
         }
+
+        printout.println("Server "+this.id);
+        printout.println("\nfor "+departedJobs+" jobs\n");
+        printout.println("   average interarrival time = "+lastArrivalTime / departedJobs+"\n" );
+        printout.println("   average service time .... = "+sumServiceTime/ this.serverNumber+"\n" );
+        printout.println("   average delay ........... = "+areaQueue / departedJobs+"\n" );
+        printout.println("   average wait ............ = "+areaNode / departedJobs+"\n" );
+        printout.println("   utilization ............. = "+sumUtilization/this.serverNumber+"\n" );
+        printout.println("   average # in the queue .. = "+areaQueue / Simulation.getCurrentTime()+"\n" );
+        printout.println("   average # in the node ... = "+areaNode / Simulation.getCurrentTime()+"\n" );
+
+        printout.close();
 
 
 

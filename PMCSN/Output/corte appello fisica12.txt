@@ -1,0 +1,18 @@
+Server corte appello fisica12
+
+for 333 jobs
+
+   average interarrival time = 121.76980547685278
+
+   average wait ............ = 1.0215917205504272
+
+   average delay ........... = 0.02159172055042732
+
+   average service time .... = 1.0
+
+   average # in the node ... = 0.00799716304301377
+
+   average # in the queue .. = 1.6902301197970106E-4
+
+   utilization ............. = 0.007828140031034068
+

@@ -1,0 +1,18 @@
+Server corte cassazione
+
+for 842 jobs
+
+   average interarrival time = 50.38228307595723
+
+   average service time .... = 108.74931325216619
+
+   average delay ........... = 163.76201416779807
+
+   average wait ............ = 261.78528744394447
+
+   utilization ............. = 0.0041019891168380665
+
+   average # in the queue .. = 3.241452150269953
+
+   average # in the node ... = 5.181693002534358
+

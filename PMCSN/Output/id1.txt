@@ -1,0 +1,18 @@
+Server id1
+
+for 1857024 jobs
+
+   average interarrival time = 0.0026623824613365783
+
+   average service time .... = 12.900656163194837
+
+   average delay ........... = 175.74278740923526
+
+   average wait ............ = 188.6212070235786
+
+   utilization ............. = 0.05744402360784256
+
+   average # in the queue .. = 7672.013867746236
+
+   average # in the node ... = 8234.218526796187
+

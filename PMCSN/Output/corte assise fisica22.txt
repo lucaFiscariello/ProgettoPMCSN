@@ -1,0 +1,18 @@
+Server corte assise fisica22
+
+for 34 jobs
+
+   average interarrival time = 1163.118045164188
+
+   average wait ............ = 1.0
+
+   average delay ........... = 0.0
+
+   average service time .... = 1.0
+
+   average # in the node ... = 7.992695527181933E-4
+
+   average # in the queue .. = 0.0
+
+   utilization ............. = 7.992695527181933E-4
+

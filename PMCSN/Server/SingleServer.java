@@ -2,6 +2,11 @@ package Server;
 
 import Simulation.Simulation;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class SingleServer implements Server{
     private int jobNumbers;
     private int departedJobs;
@@ -13,9 +18,12 @@ public class SingleServer implements Server{
     private double meanService;
     private double meanArrival;
     private String id;
+    private double lastTimeEvent;
+    private Distribution distribution;
 
 
-    public SingleServer(int jobNumbers,int streamSimulation,double meanService,String id,double meanArrival){
+
+    public SingleServer(int jobNumbers,int streamSimulation,double meanService,String id,double meanArrival,Distribution distribution){
         this.jobNumbers = jobNumbers;
         this.departedJobs= 0;
         this.areaNode = 0;
@@ -26,20 +34,23 @@ public class SingleServer implements Server{
         this.meanService= meanService;
         this.meanArrival = meanArrival;
         this.id = id;
+        this.lastTimeEvent = 0;
+        this.distribution = distribution;
     }
 
 
     public void processArrival(double timeNext, double timeCurrent){
         if (jobNumbers >= 0) {                            /* update integrals  */
-            areaNode += (timeNext - timeCurrent) * jobNumbers;
+            areaNode += (timeNext - lastTimeEvent) * jobNumbers;
 
             if(jobNumbers>0){
-                areaQueue += (timeNext - timeCurrent) * (jobNumbers - 1);
-                areaService += (timeNext - timeCurrent);
+                areaQueue += (timeNext - lastTimeEvent) * (jobNumbers - 1);
+                areaService += (timeNext - lastTimeEvent);
             }
 
             this.jobNumbers++;
             this.lastTime = timeNext;
+            this.lastTimeEvent = timeNext;
 
         }
 
@@ -48,12 +59,14 @@ public class SingleServer implements Server{
 
     public void processCompletition(double timeNext, double timeCurrent){
         if (jobNumbers > 0)  {                               /* update integrals  */
-            areaNode    += (timeNext - timeCurrent) * jobNumbers;
-            areaQueue   += (timeNext - timeCurrent) * (jobNumbers - 1);
-            areaService += (timeNext - timeCurrent) ;
+            areaNode    += (timeNext - lastTimeEvent) * jobNumbers;
+            areaQueue   += (timeNext - lastTimeEvent) * (jobNumbers - 1);
+            areaService += (timeNext - lastTimeEvent) ;
 
             this.jobNumbers--;
             this.departedJobs++;
+            this.lastTimeEvent = timeNext;
+
         }
 
 
@@ -79,16 +92,28 @@ public class SingleServer implements Server{
         return this.meanArrival;
     }
 
-    public void printStats(){
-        System.out.println("Server "+this.id);
-        System.out.println("\nfor "+departedJobs+" jobs\n");
-        System.out.println("   average interarrival time = "+lastTime / departedJobs+"\n" );
-        System.out.println("   average wait ............ = "+areaNode / departedJobs+"\n" );
-        System.out.println("   average delay ........... = "+areaQueue / departedJobs+"\n" );
-        System.out.println("   average service time .... = "+areaService / departedJobs+"\n" );
-        System.out.println("   average # in the node ... = "+areaNode / Simulation.getCurrentTime()+"\n" );
-        System.out.println("   average # in the queue .. = "+areaQueue / Simulation.getCurrentTime()+"\n" );
-        System.out.println("   utilization ............. = "+areaService / Simulation.getCurrentTime()+"\n" );
+    public Distribution getDistribution(){
+        return this.distribution;
+    }
+
+    public void printStats() throws IOException {
+
+        FileWriter fileout = new FileWriter("Output\\"+this.id+".txt");
+        BufferedWriter filebuf = new BufferedWriter(fileout);
+        PrintWriter printout = new PrintWriter(filebuf);
+
+        printout.println("Server "+this.id);
+        printout.println("\nfor "+departedJobs+" jobs\n");
+        printout.println("   average interarrival time = "+lastTime / departedJobs+"\n" );
+        printout.println("   average wait ............ = "+areaNode / departedJobs+"\n" );
+        printout.println("   average delay ........... = "+areaQueue / departedJobs+"\n" );
+        printout.println("   average service time .... = "+areaService / departedJobs+"\n" );
+        printout.println("   average # in the node ... = "+areaNode / Simulation.getCurrentTime()+"\n" );
+        printout.println("   average # in the queue .. = "+areaQueue / Simulation.getCurrentTime()+"\n" );
+        printout.println("   utilization ............. = "+areaService / Simulation.getCurrentTime()+"\n" );
+
+        printout.close();
+
     }
 
 

@@ -1,0 +1,18 @@
+Server tribunale
+
+for 200451 jobs
+
+   average interarrival time = 0.2119205309577351
+
+   average service time .... = 38.70887591117314
+
+   average delay ........... = 824.7558231243305
+
+   average wait ............ = 863.0975833873545
+
+   utilization ............. = 0.22899058343703624
+
+   average # in the queue .. = 3886.4042285385963
+
+   average # in the node ... = 4067.0777988704135
+

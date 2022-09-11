@@ -11,17 +11,18 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ParseException {
         Rngs rngs = new Rngs();
-        rngs.plantSeed(0);
+        rngs.plantSeed(100);
 
-        Network network = new Network("src/main/java/Configuration3.json",rngs);
+        Network network = new Network("src/main/java/ConfigurationRete.json",rngs);
+        Simulation.insertEvent(network.getFirstEventArrival());
 
-        Event firstEvent = network.getFirstEvent();
         Event nextEvent ;
-        Simulation.insertEvent(firstEvent);
+        int runNumber = 3000000;
 
-        for(int i=0 ; i<10000; i++){
+        while(network.getJobsArrived()<runNumber){
             nextEvent = Simulation.extractMinEvent();
             network.handleEvent(nextEvent, Simulation.getCurrentTime());
+            System.out.println((double) network.getJobsArrived()/runNumber);
         }
 
         Simulation.stopSimulation();
@@ -29,13 +30,12 @@ public class Main {
         while(Simulation.getRemainEvents()>0){
             nextEvent = Simulation.extractMinEvent();
             network.handleEvent(nextEvent, Simulation.getCurrentTime());
+            System.out.println(Simulation.getRemainEvents());
         }
 
         for (Node node: network.getAllNode().values()) {
             node.getServer().printStats();
         }
-
-
 
     }
 
