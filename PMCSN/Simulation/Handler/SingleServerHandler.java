@@ -12,7 +12,6 @@ public class SingleServerHandler implements HandlerEvent{
     private Rngs rngs;
     private Network network;
     private Server singleServer;
-    private double sum =0;
 
     public SingleServerHandler(Server singleServer, Rngs rngs, Network network){
         this.rngs = rngs;
@@ -65,14 +64,13 @@ public class SingleServerHandler implements HandlerEvent{
 
             //Dopo aver servito il job lo inoltro a un altro centro. Se il job esce dalla rete non faccio nessun operazione
             nextNode = network.getNextServer(singleServer.getId());
-            if(nextNode != null){
-                nextEvent = new Event(nextNode, Event.Type.arrival,Simulation.getCurrentTime());
+            nextEvent = new Event(nextNode, Event.Type.arrival,Simulation.getCurrentTime());
 
-                if(nextNode.getId().equals("id1"))
-                    nextEvent.setFeedbackFirstNode();
+            if(nextNode != null && nextNode.getId().equals("id1"))
+                nextEvent.setFeedbackFirstNode();
 
-                Simulation.insertEvent(nextEvent);
-            }
+            Simulation.insertEvent(nextEvent);
+
 
             //Se il centro contiene altri job in attesa genero un nuovo evento di completamento
             if(singleServer.getJobNumbers() > 0){

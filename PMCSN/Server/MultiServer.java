@@ -1,13 +1,16 @@
 package Server;
 import Simulation.Simulation;
-
+import Simulation.StatsHandler;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 public class MultiServer implements Server{
     private double areaNode;
+    private double areaqueue;
+    private double areaService;
     private int jobNumbers;
     private double lastArrivalTime;
     private int serverNumber;
@@ -21,14 +24,17 @@ public class MultiServer implements Server{
     private int streamSimulation;
     private double lastEventTime ;
     private Distribution distribution;
+    private StatsHandler statsHandler;
 
 
     public MultiServer(int jobNumbers,int streamSimulation,double meanService,String id,double meanArrival,int serverNumber,Distribution distribution){
         this.jobNumbers = jobNumbers;
         this.departedJobs= 0;
         this.areaNode = 0;
+        this.areaqueue=0;
+        this.areaService=0;
         this.lastArrivalTime=0;
-        lastEventTime = 0.0;
+        this.lastEventTime = 1.0;
         this.streamSimulation = streamSimulation;
         this.meanService= meanService;
         this.meanArrival = meanArrival;
@@ -47,12 +53,19 @@ public class MultiServer implements Server{
             this.sumService[i] = 0.0;
         }
 
+        this.statsHandler = new StatsHandler();
+
     }
 
     public void processArrival(double timeNext, double timeCurrent) {
 
-        if (jobNumbers >= 0) {                           /* update integrals  */
+        if (jobNumbers >= 0) {
+            double jobsQueue = (jobNumbers<this.serverNumber)? 0:jobNumbers-serverNumber;
+            double jobService = (jobNumbers-jobsQueue>0)?jobNumbers-jobsQueue:0;
+
             areaNode += (timeNext - lastEventTime) * jobNumbers;
+            areaqueue +=(timeNext - lastEventTime) * jobsQueue;
+            areaService += (timeNext - lastEventTime) * jobService;
 
             // Se ci sono server liberi è possibile processare un nuovo job
             if (this.hasAnyServerIdle()) {
@@ -71,15 +84,21 @@ public class MultiServer implements Server{
     public void processCompletition(double timeNext, double service){
 
         if (jobNumbers > 0)   {                           /* update integrals  */
-            areaNode += service * jobNumbers;
+            double jobsQueue = (jobNumbers<this.serverNumber)? 0:jobNumbers-serverNumber;
+            double jobService = (jobNumbers-jobsQueue>0)?jobNumbers-jobsQueue:0;
 
-            //Processo il job e libero un server
-            if (this.hasAnyServerNotIdle()) {
-                int s = this.findOneNotIdle();
+            areaNode += (timeNext - lastEventTime) * jobNumbers;
+            areaqueue +=(timeNext - lastEventTime) * jobsQueue;
+            areaService += (timeNext - lastEventTime) * jobService;
 
-                sumService[s] += service;
-                served[s]++;
-                idleServer[s] = true;
+            int s = this.findOneNotIdle();
+            sumService[s] += service;
+            served[s]++;
+            idleServer[s] = true;
+
+            if(jobsQueue>0){
+                s= findOneIdle();
+                idleServer[s] = false;
             }
 
             this.jobNumbers--;
@@ -87,10 +106,6 @@ public class MultiServer implements Server{
             lastEventTime = timeNext;
 
         }
-
-
-
-
 
     }
 
@@ -114,6 +129,32 @@ public class MultiServer implements Server{
         return id;
     }
 
+
+    public Distribution getDistribution(){
+        return this.distribution;
+    }
+
+    public int getServerNumber(){
+        return this.serverNumber;
+    }
+
+    public int getQueueJobs(){
+        return (jobNumbers<this.serverNumber)? 0:jobNumbers-serverNumber;
+    }
+
+    public Statistics getStatistics() {
+        double serviceTime = areaService/ departedJobs;
+        double averageDelay = areaqueue / departedJobs;
+        double averageWait = areaNode / departedJobs;
+        double utilization = areaService/(Simulation.getCurrentTime()*this.serverNumber);
+        double averageJobQueue = areaqueue / Simulation.getCurrentTime();
+        double averageJobNode = areaNode / Simulation.getCurrentTime();
+
+        return new Statistics(serviceTime,averageDelay,averageWait,utilization,averageJobQueue,averageJobNode);
+
+    }
+
+
     private int getIdleServerNumber() {
         int serversIdle=0;
         for(int i=0; i<serverNumber;i++){
@@ -122,16 +163,6 @@ public class MultiServer implements Server{
         }
 
         return  serversIdle;
-    }
-
-    private int getNotIdleServerNumber() {
-        int serversNotIdle=0;
-        for(int i=0; i<serverNumber;i++){
-            if(!this.idleServer[i])
-                serversNotIdle = serversNotIdle+1;
-        }
-
-        return  serversNotIdle;
     }
 
     private int findOneNotIdle() {
@@ -145,7 +176,7 @@ public class MultiServer implements Server{
 
     private int findOneIdle() {
         int minPos = -1;
-        double minservice = Integer.MAX_VALUE;
+        double minservice = Double.MAX_VALUE;
 
         for(int i=0; i<serverNumber;i++){
             if(this.idleServer[i] && sumService[i]<=minservice){
@@ -158,14 +189,7 @@ public class MultiServer implements Server{
     }
 
     public boolean hasAnyServerIdle(){
-        return this.getIdleServerNumber() > 0;
-    }
-    public boolean hasAnyServerNotIdle(){
-        return this.getNotIdleServerNumber() > 0;
-    }
-
-    public Distribution getDistribution(){
-        return this.distribution;
+        return this.getIdleServerNumber()>0;
     }
 
     public void printStats() throws IOException {
@@ -174,33 +198,35 @@ public class MultiServer implements Server{
         BufferedWriter filebuf = new BufferedWriter(fileout);
         PrintWriter printout = new PrintWriter(filebuf);
 
-        double areaQueue = areaNode;
-
-
-        for (int i = 0; i < serverNumber; i++)            /* adjust area to calculate */
-            areaQueue -= sumService[i];              /* averages for the queue   */
-
-        double sumServiceTime = 0.0;
-        double sumUtilization = 0.0;
-
-        for (int i = 0; i < serverNumber; i++){
-            sumServiceTime += sumService[i] / served[i];
-            sumUtilization += sumService[i] / Simulation.getCurrentTime();
-        }
-
         printout.println("Server "+this.id);
         printout.println("\nfor "+departedJobs+" jobs\n");
         printout.println("   average interarrival time = "+lastArrivalTime / departedJobs+"\n" );
-        printout.println("   average service time .... = "+sumServiceTime/ this.serverNumber+"\n" );
-        printout.println("   average delay ........... = "+areaQueue / departedJobs+"\n" );
+        printout.println("   average service time .... = "+areaService/ departedJobs+"\n" );
+        printout.println("   average delay ........... = "+areaqueue / departedJobs+"\n" );
         printout.println("   average wait ............ = "+areaNode / departedJobs+"\n" );
-        printout.println("   utilization ............. = "+sumUtilization/this.serverNumber+"\n" );
-        printout.println("   average # in the queue .. = "+areaQueue / Simulation.getCurrentTime()+"\n" );
+        printout.println("   utilization ............. = "+areaService/(Simulation.getCurrentTime()*this.serverNumber)+"\n" );
+        printout.println("   average # in the queue .. = "+areaqueue / Simulation.getCurrentTime()+"\n" );
         printout.println("   average # in the node ... = "+areaNode / Simulation.getCurrentTime()+"\n" );
 
         printout.close();
+    }
 
+    public void saveStats() {
+        HashMap<String, Object> allStats = new HashMap<>();
 
+        allStats.put("Server Id", this.id);
+        allStats.put("departed Jobs", departedJobs);
+        allStats.put("average interarrival time", lastArrivalTime / departedJobs);
+        allStats.put("average service time", areaService/ departedJobs);
+        allStats.put("average delay", areaqueue / departedJobs);
+        allStats.put("average wait", areaNode / departedJobs);
+        allStats.put("utilization", areaService/(Simulation.getCurrentTime()*this.serverNumber));
+        allStats.put("average # in the queue", areaqueue / Simulation.getCurrentTime());
+        allStats.put("average # in the node", areaNode / Simulation.getCurrentTime());
+
+        statsHandler.saveStats(allStats);
 
     }
+
+
 }

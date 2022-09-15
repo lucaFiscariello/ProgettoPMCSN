@@ -1,11 +1,13 @@
 package Server;
 
 import Simulation.Simulation;
-
+import Simulation.StatsHandler;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+
 
 public class SingleServer implements Server{
     private int jobNumbers;
@@ -20,6 +22,8 @@ public class SingleServer implements Server{
     private String id;
     private double lastTimeEvent;
     private Distribution distribution;
+    private StatsHandler statsHandler;
+
 
 
 
@@ -34,8 +38,9 @@ public class SingleServer implements Server{
         this.meanService= meanService;
         this.meanArrival = meanArrival;
         this.id = id;
-        this.lastTimeEvent = 0;
+        this.lastTimeEvent = 1;
         this.distribution = distribution;
+        this.statsHandler = new StatsHandler();
     }
 
 
@@ -96,6 +101,17 @@ public class SingleServer implements Server{
         return this.distribution;
     }
 
+    public Statistics getStatistics() {
+        double serviceTime = areaService/ departedJobs;
+        double averageDelay = areaQueue / departedJobs;
+        double averageWait = areaNode / departedJobs;
+        double utilization = areaService/Simulation.getCurrentTime();
+        double averageJobQueue = areaQueue / Simulation.getCurrentTime();
+        double averageJobNode = areaNode / Simulation.getCurrentTime();
+
+        return new Statistics(serviceTime,averageDelay,averageWait,utilization,averageJobQueue,averageJobNode);
+    }
+
     public void printStats() throws IOException {
 
         FileWriter fileout = new FileWriter("Output\\"+this.id+".txt");
@@ -116,7 +132,22 @@ public class SingleServer implements Server{
 
     }
 
+    public void saveStats() {
+        HashMap<String, Object> allStats = new HashMap<>();
 
+        allStats.put("Server Id", this.id);
+        allStats.put("departed Jobs", departedJobs);
+        allStats.put("average interarrival time", lastTime / departedJobs);
+        allStats.put("average service time", areaService/ departedJobs);
+        allStats.put("average delay", areaQueue / departedJobs);
+        allStats.put("average wait", areaNode / departedJobs);
+        allStats.put("utilization", areaService/Simulation.getCurrentTime());
+        allStats.put("average # in the queue", areaQueue / Simulation.getCurrentTime());
+        allStats.put("average # in the node", areaNode / Simulation.getCurrentTime());
+
+        statsHandler.saveStats(allStats);
+
+    }
 
 
 }

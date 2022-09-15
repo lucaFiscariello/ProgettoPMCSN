@@ -6,7 +6,7 @@
   "id1" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 0,
-    "meanService" : 4.3,
+    "meanService" : 23.77,
     "meanArrival" : 0.0028,
     "totalConnection" : ["udienza preliminare","primo grado monocratico", "tribunale","corte appello","end"],
     "connection": {"udienza preliminare": 0.28 ,
@@ -16,20 +16,21 @@
                    "end": 0.4},
     "type": "multi server",
     "numberServer" : 9787,
-    "distribution" : "KErlang"
+    "distribution" : "Exponential"
 
   },
 
   "udienza preliminare" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 1,
-    "meanService" : 10.0,
+    "meanService" : 6.9,
     "totalConnection" : ["id1","primo grado monocratico", "tribunale","corte appello","end"],
-    "connection": {"id1": 0.18 ,
+    "connection": {
       "primo grado monocratico":0.11 ,
       "tribunale": 0.019,
       "corte appello": 0.001,
-      "end": 0.69},
+      "id1": 0.69,
+      "end": 0.18 },
     "type": "multi server",
     "numberServer" : 789,
     "distribution" : "Exponential"
@@ -39,7 +40,7 @@
   "primo grado monocratico" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 2,
-    "meanService" : 16.0,
+    "meanService" : 19.0,
     "totalConnection" : ["tribunale fisico1" , "tribunale fisico2" , "tribunale fisico3" , "tribunale fisico4" , "tribunale fisico5" , "tribunale fisico6" , "tribunale fisico7" , "tribunale fisico8" , "tribunale fisico9" , "tribunale fisico10" , "tribunale fisico11" , "tribunale fisico12" , "tribunale fisico13" , "tribunale fisico14" , "tribunale fisico15" , "tribunale fisico16" , "tribunale fisico17" , "tribunale fisico18" , "tribunale fisico19" , "tribunale fisico20" , "tribunale fisico21" , "tribunale fisico22" , "tribunale fisico23" , "tribunale fisico24" , "tribunale fisico25" , "tribunale fisico26" , "tribunale fisico27" , "tribunale fisico28" , "tribunale fisico29" , "tribunale fisico30" , "tribunale fisico31" , "tribunale fisico32" , "tribunale fisico33" , "tribunale fisico34" , "tribunale fisico35" , "tribunale fisico36" , "tribunale fisico37" , "tribunale fisico38" , "tribunale fisico39" , "tribunale fisico40" , "tribunale fisico41" , "tribunale fisico42" , "tribunale fisico43" , "tribunale fisico44" , "tribunale fisico45" , "tribunale fisico46" , "tribunale fisico47" , "tribunale fisico48" , "tribunale fisico49" , "tribunale fisico50" , "tribunale fisico51" , "tribunale fisico52" , "tribunale fisico53" , "tribunale fisico54" , "tribunale fisico55" , "tribunale fisico56" , "tribunale fisico57" , "tribunale fisico58" , "tribunale fisico59" , "tribunale fisico60" , "tribunale fisico61" , "tribunale fisico62" , "tribunale fisico63" , "tribunale fisico64" , "tribunale fisico65" , "tribunale fisico66" , "tribunale fisico67" , "tribunale fisico68" , "tribunale fisico69" , "tribunale fisico70" , "tribunale fisico71" , "tribunale fisico72" , "tribunale fisico73" , "tribunale fisico74" , "tribunale fisico75" , "tribunale fisico76" , "tribunale fisico77" , "tribunale fisico78" , "tribunale fisico79" , "tribunale fisico80" , "tribunale fisico81" , "tribunale fisico82" , "tribunale fisico83" , "tribunale fisico84" , "tribunale fisico85" , "tribunale fisico86" , "tribunale fisico87" , "tribunale fisico88" , "tribunale fisico89" , "tribunale fisico90" , "tribunale fisico91" , "tribunale fisico92" , "tribunale fisico93" , "tribunale fisico94" , "tribunale fisico95" , "tribunale fisico96" , "tribunale fisico97" , "tribunale fisico98" , "tribunale fisico99" , "tribunale fisico100" , "tribunale fisico101" , "tribunale fisico102" , "tribunale fisico103" , "tribunale fisico104" , "tribunale fisico105" , "tribunale fisico106" , "tribunale fisico107" , "tribunale fisico108" , "tribunale fisico109" , "tribunale fisico110" , "tribunale fisico111" , "tribunale fisico112" , "tribunale fisico113" , "tribunale fisico114" , "tribunale fisico115" , "tribunale fisico116" , "tribunale fisico117" , "tribunale fisico118" , "tribunale fisico119" , "tribunale fisico120" , "tribunale fisico121" , "tribunale fisico122" , "tribunale fisico123" , "tribunale fisico124" , "tribunale fisico125" , "tribunale fisico126" , "tribunale fisico127" , "tribunale fisico128" , "tribunale fisico129" , "tribunale fisico130" , "tribunale fisico131" , "tribunale fisico132" , "tribunale fisico133" , "tribunale fisico134" , "tribunale fisico135" , "tribunale fisico136" , "tribunale fisico137" , "tribunale fisico138" , "tribunale fisico139" , "tribunale fisico140" , "tribunale fisico141" , "tribunale fisico142" , "tribunale fisico143" , "tribunale fisico144" , "tribunale fisico145" , "tribunale fisico146" , "tribunale fisico147" , "tribunale fisico148" , "tribunale fisico149" , "tribunale fisico150" , "tribunale fisico151" , "tribunale fisico152" , "tribunale fisico153" , "tribunale fisico154" , "tribunale fisico155" , "tribunale fisico156" , "tribunale fisico157" , "tribunale fisico158" , "tribunale fisico159" , "tribunale fisico160" , "tribunale fisico161" , "tribunale fisico162" , "tribunale fisico163" , "tribunale fisico164" , "tribunale fisico165"],
     "connection":
     {
@@ -218,7 +219,7 @@
   "tribunale" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 3,
-    "meanService" : 38.05,
+    "meanService" : 28.0,
     "totalConnection" : ["tribunale fisico1" , "tribunale fisico2" , "tribunale fisico3" , "tribunale fisico4" , "tribunale fisico5" , "tribunale fisico6" , "tribunale fisico7" , "tribunale fisico8" , "tribunale fisico9" , "tribunale fisico10" , "tribunale fisico11" , "tribunale fisico12" , "tribunale fisico13" , "tribunale fisico14" , "tribunale fisico15" , "tribunale fisico16" , "tribunale fisico17" , "tribunale fisico18" , "tribunale fisico19" , "tribunale fisico20" , "tribunale fisico21" , "tribunale fisico22" , "tribunale fisico23" , "tribunale fisico24" , "tribunale fisico25" , "tribunale fisico26" , "tribunale fisico27" , "tribunale fisico28" , "tribunale fisico29" , "tribunale fisico30" , "tribunale fisico31" , "tribunale fisico32" , "tribunale fisico33" , "tribunale fisico34" , "tribunale fisico35" , "tribunale fisico36" , "tribunale fisico37" , "tribunale fisico38" , "tribunale fisico39" , "tribunale fisico40" , "tribunale fisico41" , "tribunale fisico42" , "tribunale fisico43" , "tribunale fisico44" , "tribunale fisico45" , "tribunale fisico46" , "tribunale fisico47" , "tribunale fisico48" , "tribunale fisico49" , "tribunale fisico50" , "tribunale fisico51" , "tribunale fisico52" , "tribunale fisico53" , "tribunale fisico54" , "tribunale fisico55" , "tribunale fisico56" , "tribunale fisico57" , "tribunale fisico58" , "tribunale fisico59" , "tribunale fisico60" , "tribunale fisico61" , "tribunale fisico62" , "tribunale fisico63" , "tribunale fisico64" , "tribunale fisico65" , "tribunale fisico66" , "tribunale fisico67" , "tribunale fisico68" , "tribunale fisico69" , "tribunale fisico70" , "tribunale fisico71" , "tribunale fisico72" , "tribunale fisico73" , "tribunale fisico74" , "tribunale fisico75" , "tribunale fisico76" , "tribunale fisico77" , "tribunale fisico78" , "tribunale fisico79" , "tribunale fisico80" , "tribunale fisico81" , "tribunale fisico82" , "tribunale fisico83" , "tribunale fisico84" , "tribunale fisico85" , "tribunale fisico86" , "tribunale fisico87" , "tribunale fisico88" , "tribunale fisico89" , "tribunale fisico90" , "tribunale fisico91" , "tribunale fisico92" , "tribunale fisico93" , "tribunale fisico94" , "tribunale fisico95" , "tribunale fisico96" , "tribunale fisico97" , "tribunale fisico98" , "tribunale fisico99" , "tribunale fisico100" , "tribunale fisico101" , "tribunale fisico102" , "tribunale fisico103" , "tribunale fisico104" , "tribunale fisico105" , "tribunale fisico106" , "tribunale fisico107" , "tribunale fisico108" , "tribunale fisico109" , "tribunale fisico110" , "tribunale fisico111" , "tribunale fisico112" , "tribunale fisico113" , "tribunale fisico114" , "tribunale fisico115" , "tribunale fisico116" , "tribunale fisico117" , "tribunale fisico118" , "tribunale fisico119" , "tribunale fisico120" , "tribunale fisico121" , "tribunale fisico122" , "tribunale fisico123" , "tribunale fisico124" , "tribunale fisico125" , "tribunale fisico126" , "tribunale fisico127" , "tribunale fisico128" , "tribunale fisico129" , "tribunale fisico130" , "tribunale fisico131" , "tribunale fisico132" , "tribunale fisico133" , "tribunale fisico134" , "tribunale fisico135" , "tribunale fisico136" , "tribunale fisico137" , "tribunale fisico138" , "tribunale fisico139" , "tribunale fisico140" , "tribunale fisico141" , "tribunale fisico142" , "tribunale fisico143" , "tribunale fisico144" , "tribunale fisico145" , "tribunale fisico146" , "tribunale fisico147" , "tribunale fisico148" , "tribunale fisico149" , "tribunale fisico150" , "tribunale fisico151" , "tribunale fisico152" , "tribunale fisico153" , "tribunale fisico154" , "tribunale fisico155" , "tribunale fisico156" , "tribunale fisico157" , "tribunale fisico158" , "tribunale fisico159" , "tribunale fisico160" , "tribunale fisico161" , "tribunale fisico162" , "tribunale fisico163" , "tribunale fisico164" , "tribunale fisico165"],
     "connection":
     {
@@ -2048,7 +2049,7 @@
   "corte appello" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 170,
-    "meanService" : 65.4,
+    "meanService" : 180.4,
     "totalConnection" : ["corte appello fisica1" , "corte appello fisica2" , "corte appello fisica3" , "corte appello fisica4" , "corte appello fisica5" , "corte appello fisica6" , "corte appello fisica7" , "corte appello fisica8" , "corte appello fisica9" , "corte appello fisica10" , "corte appello fisica11" , "corte appello fisica12" , "corte appello fisica13" , "corte appello fisica14" , "corte appello fisica15" , "corte appello fisica16" , "corte appello fisica17" , "corte appello fisica18" , "corte appello fisica19" , "corte appello fisica20" , "corte appello fisica21" , "corte appello fisica22" , "corte appello fisica23" , "corte appello fisica24" , "corte appello fisica25" , "corte appello fisica26"],
     "connection": {
       "corte appello fisica1": 0.03 ,
@@ -2349,7 +2350,7 @@
   "corte assise" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 198,
-    "meanService" : 180.1,
+    "meanService" : 650.0,
     "totalConnection" : ["corte assise fisica1" , "corte assise fisica2" , "corte assise fisica3" , "corte assise fisica4" , "corte assise fisica5" , "corte assise fisica6" , "corte assise fisica7" , "corte assise fisica8" , "corte assise fisica9" , "corte assise fisica10" , "corte assise fisica11" , "corte assise fisica12" , "corte assise fisica13" , "corte assise fisica14" , "corte assise fisica15" , "corte assise fisica16" , "corte assise fisica17" , "corte assise fisica18" , "corte assise fisica19" , "corte assise fisica20" , "corte assise fisica21" , "corte assise fisica22" , "corte assise fisica23" , "corte assise fisica24" , "corte assise fisica25" , "corte assise fisica26"],
     "connection": {
       "corte assise fisica1": 0.03 ,
@@ -2649,7 +2650,7 @@
   "corte cassazione" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 225,
-    "meanService" : 100.2,
+    "meanService" : 190.2,
     "totalConnection" : ["corte cassazione fisica"],
     "connection": {"corte cassazione fisica":1.0},
     "type": "multi server",

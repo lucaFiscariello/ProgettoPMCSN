@@ -52,7 +52,7 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "nextNode=" + nextNode.getId() +
+                "nextNode=" + ((nextNode==null)?"null":nextNode.getId()) +
                 ", typeEvent=" + typeEvent +
                 ", timeNext=" + timeNext +
                 ", feedbackFirstNode=" + feedbackFirstNode +

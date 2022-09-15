@@ -110,16 +110,11 @@ public class Network {
         return new Event(allNode.get("id1"), Event.Type.completion,1.1);
     }
 
-
     //Questo metodo si occupa di delegare la gestione dell'evento al nodo della rete(server) interessato.
     public void handleEvent(Event event,double currentTime){
         //Nodo che deve gestire l'evento
         Node node = event.getNode();
         node.handleEvent(event,currentTime);
-
-        if(node.getId().equals("id1") && event.getTypeEvent().equals(Event.Type.completion))
-            this.jobsArrived++;
-
     }
 
     public Node getNodeById(String id){
