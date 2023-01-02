@@ -1,0 +1,35 @@
+{
+  "totalId" :  ["id1","id2","id3"],
+  "id1" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 0,
+    "meanService" : 4.0,
+    "meanArrival" : 5.0,
+    "totalConnection" : ["id2","id3"],
+    "connection": {"id2": 0.5, "id3": 0.5},
+    "type": "single server",
+    "numberServer" : 1,
+    "distribution" : "Exponential"
+  },
+  "id2" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 1,
+    "meanService" : 4.0,
+    "meanArrival" : 5.0,
+    "totalConnection" : ["end"],
+    "connection": {"end": 1.0},
+    "type": "single server",
+    "distribution" : "Exponential"
+  },
+  "id3" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 2,
+    "meanService" : 4.0,
+    "meanArrival" : 5.0,
+    "totalConnection" : ["end"],
+    "connection": {"end": 1.0},
+    "type": "single server",
+    "distribution" : "Exponential"
+  }
+
+}

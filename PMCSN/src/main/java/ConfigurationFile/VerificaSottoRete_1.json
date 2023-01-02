@@ -1,0 +1,25 @@
+{
+  "totalId" :  ["id1","id2"],
+  "id1" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 0,
+    "meanService" : 4.0,
+    "meanArrival" : 5.0,
+    "totalConnection" : ["id2"],
+    "connection": {"id2": 1.0},
+    "type": "single server",
+    "numberServer" : 1,
+    "distribution" : "Exponential"
+  },
+  "id2" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 0,
+    "meanService" : 4.0,
+    "meanArrival" : 5.0,
+    "totalConnection" : ["end"],
+    "connection": {"end": 1.0},
+    "type": "single server",
+    "distribution" : "Exponential"
+  }
+
+}
