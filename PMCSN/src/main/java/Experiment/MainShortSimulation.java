@@ -10,9 +10,12 @@ public class MainShortSimulation {
     public static void main(String[] args) throws IOException, ParseException {
         int stop = 1000000;
         int seed = 100;
-        String configuration = "src/main/java/ConfigurationFile/InitialNetwork.json";
 
-        Simulation.simule(stop,configuration,seed);
+        String serverOfInteress="corte assise";
+        String configuration = "src/main/java/ConfigurationFile/InitialNetwork2.json";
+
+        Simulation.simule(stop,configuration,seed,serverOfInteress);
+
     }
 
 

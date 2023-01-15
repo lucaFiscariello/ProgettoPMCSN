@@ -1,7 +1,7 @@
 package Code.Server.MultiServer;
 import Code.Server.Interface.Server;
 import Code.Simulation.Handler.SimulationHandler;
-import Code.Simulation.Handler.StatsHandler;
+import Code.Simulation.StatsCollector.StatsHandler;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -86,7 +86,6 @@ public class MultiServer implements Server {
             areaNode += (timeNext - lastEventTime) * jobNumbers;
             areaqueue +=(timeNext - lastEventTime) * jobsQueue;
             areaService += (timeNext - lastEventTime) * jobService;
-
 
             // Se ci sono server liberi è possibile processare un nuovo job
             if (this.hasAnyServerIdle()) {

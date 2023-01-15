@@ -23,7 +23,7 @@ public class MainVerifica {
         String verificaSottoRete_3 = "src/main/java/ConfigurationFile/VerificaSottorete_3.json";
         String verificaSottoRete_4 = "src/main/java/ConfigurationFile/VerificaSottorete_4.json";
 
-        BatchMeans batchMeans = new BatchMeans(3,20000,verificaSottoRete_4);
+        BatchMeans batchMeans = new BatchMeans(1,100000,verificaMulti_1);
         batchMeans.simule();
     }
 

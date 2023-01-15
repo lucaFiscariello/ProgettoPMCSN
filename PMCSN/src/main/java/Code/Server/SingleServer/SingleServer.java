@@ -2,7 +2,7 @@ package Code.Server.SingleServer;
 
 import Code.Server.Interface.Server;
 import Code.Simulation.Handler.SimulationHandler;
-import Code.Simulation.Handler.StatsHandler;
+import Code.Simulation.StatsCollector.StatsHandler;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

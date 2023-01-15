@@ -1,13 +1,13 @@
 {
-  "totalId" :  ["id1"],
-  "id1" : {
+  "totalId" :  ["procuraRoma"],
+  "procuraRoma" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 0,
-    "meanService" : 4.0,
-    "meanArrival" : 5.0,
+    "meanService" : 1.97,
+    "meanArrival" : 2.0,
     "totalConnection" : ["end"],
     "connection": {"end": 1.0},
-    "type": "multi server",
+    "type": "single server",
     "numberServer" : 1,
     "distribution" : "Exponential"
   }

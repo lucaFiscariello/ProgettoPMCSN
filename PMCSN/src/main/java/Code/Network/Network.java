@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class Network {
     private HashMap<String,Node> allNode;
@@ -96,11 +97,14 @@ public class Network {
         Node prevNode = this.allNode.get(idServerPrev);
         String idNextNode = prevNode.getNextServerId();
 
-        if(prevNode.getId().equals("udienza preliminare") && idNextNode!= null && idNextNode.equals("primo grado monocratico")){
-            Server mono = getNodeById("primo grado monocratico").getServer();
-            if(mono.getStatistics().getUtilization()>0.99999)
-                return null;
-        }
+        /**
+         * if(prevNode.getId().equals("udienza preliminare") && idNextNode!= null && idNextNode.equals("primo grado monocratico")){
+         *             Server mono = getNodeById("primo grado monocratico").getServer();
+         *             if(mono.getStatistics().getUtilization()>0.99999)
+         *                 return null;
+         *         }
+         */
+
 
         return this.allNode.get(idNextNode);
     }
@@ -111,7 +115,11 @@ public class Network {
 
     public void initialize(){
 
-        SimulationHandler.insertEvent(new Event(allNode.get("id1"), Event.Type.arrival,0.0));
+        SimulationHandler.insertEvent(new Event(allNode.get("procuraRoma"), Event.Type.arrival,0.0));
+        SimulationHandler.insertEvent(new Event(allNode.get("procuraLatina"), Event.Type.arrival,0.0));
+        SimulationHandler.insertEvent(new Event(allNode.get("procuraViterbo"), Event.Type.arrival,0.0));
+        SimulationHandler.insertEvent(new Event(allNode.get("procuraRieti"), Event.Type.arrival,0.0));
+        SimulationHandler.insertEvent(new Event(allNode.get("procuraFrosinone"), Event.Type.arrival,0.0));
 
         for (Node node: allNode.values()) {
             Server server = node.getServer();

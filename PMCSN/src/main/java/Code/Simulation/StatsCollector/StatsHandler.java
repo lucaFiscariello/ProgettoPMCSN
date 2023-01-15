@@ -1,4 +1,4 @@
-package Code.Simulation.Handler;
+package Code.Simulation.StatsCollector;
 import java.util.ArrayList;
 import java.util.HashMap;
 

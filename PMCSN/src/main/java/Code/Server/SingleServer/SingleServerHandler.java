@@ -34,7 +34,7 @@ public class SingleServerHandler implements HandlerEvent {
             SimulationHandler.advanceTime(event.getTimeNext());
 
             //Se arriva un nuovo job al primo centro creo un nuovo arrivo
-            if(singleServer.getId().equals("id1") && !SimulationHandler.stopSimulation && !event.isFeedbackFirstNode()){
+            if(singleServer.getId().contains("procura") && !SimulationHandler.stopSimulation && !event.isFeedbackFirstNode()){
                 rngs.selectStream(singleServer.getStreamSimulation());
 
                 nextTime = SimulationHandler.getCurrentTime() + rngs.exponential(singleServer.getMeanArrival());
@@ -69,7 +69,7 @@ public class SingleServerHandler implements HandlerEvent {
 
             if(nextNode == null)
                 this.singleServer.incrementEndJobNumber();
-            else if(nextNode.getId().equals("id1"))
+            else if(nextNode.getId().contains("procura"))
                 nextEvent.setFeedbackFirstNode();
 
             SimulationHandler.insertEvent(nextEvent);

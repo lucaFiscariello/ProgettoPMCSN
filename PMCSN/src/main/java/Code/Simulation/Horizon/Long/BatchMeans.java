@@ -28,15 +28,6 @@ public class BatchMeans {
 
     }
 
-    public BatchMeans(int k, int b)  {
-
-        this.k = k;
-        this.b = b;
-        this.seed = 2;
-        this.rngs = new Rngs();
-
-    }
-
     public void simule() throws IOException {
         Rngs rngs = new Rngs();
         rngs.plantSeed(100);
@@ -44,6 +35,8 @@ public class BatchMeans {
 
         //Permette di evitare di salvare più volte le stesse statistiche.
         int last=0;
+
+
 
         network.initialize();
 
@@ -55,7 +48,7 @@ public class BatchMeans {
             nextNode = nextEvent.getNode();
             nextNode.handleEvent(nextEvent, SimulationHandler.getCurrentTime());
 
-
+            //Al termine di ogni batch memorizzo le statistiche e cancello quelle precedenti
             if(SimulationHandler.getJobsDepar()%b==0 && SimulationHandler.getJobsDepar()!=0 && last!=SimulationHandler.getJobsDepar() ){
 
                 for (Node node: network.getAllNode().values()) {

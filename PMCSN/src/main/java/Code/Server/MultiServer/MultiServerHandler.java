@@ -53,7 +53,7 @@ public class MultiServerHandler implements HandlerEvent {
             }
 
             //Se arriva un nuovo job al primo centro creo un nuovo arrivo
-            if(multiserver.getId().equals("id1")  && !SimulationHandler.stopSimulation && !event.isFeedbackFirstNode()){
+            if(multiserver.getId().contains("procura")  && !SimulationHandler.stopSimulation && !event.isFeedbackFirstNode()){
 
                 rngs.selectStream(multiserver.getStreamSimulation());
                 nextTime = SimulationHandler.getCurrentTime() + rngs.exponential(multiserver.getMeanArrival());
@@ -82,7 +82,7 @@ public class MultiServerHandler implements HandlerEvent {
 
                 if(nextNode == null)
                     this.multiserver.incrementEndJobNumber();
-                else if(nextNode.getId().equals("id1"))
+                else if(nextNode.getId().contains("procura"))
                     nextEvent.setFeedbackFirstNode();
 
                 SimulationHandler.insertEvent(nextEvent);

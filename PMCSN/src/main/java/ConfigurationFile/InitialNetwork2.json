@@ -1,0 +1,242 @@
+{
+  "totalId" :  ["udienza preliminare","primo grado monocratico","tribunale","corte appello","corte assise","corte cassazione","corte cassazione fisica",
+                "corte assise fisica" , "procuraRoma","procuraLatina","procuraFrosinone","procuraViterbo","procuraRieti",
+                "corte appello fisica" , "tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti" ],
+    "procuraRoma" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 0,
+    "meanService" : 0.8,
+    "meanArrival" : 4.0,
+    "totalConnection" : ["udienza preliminare"],
+    "connection": {"udienza preliminare": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "procuraLatina" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 1,
+    "meanService" : 3.5,
+    "meanArrival" : 4.0,
+    "totalConnection" : ["udienza preliminare"],
+    "connection": {"udienza preliminare": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "procuraFrosinone" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 2,
+    "meanService" : 2.15,
+    "meanArrival" : 4.0,
+    "totalConnection" : ["udienza preliminare"],
+    "connection": {"udienza preliminare": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "procuraViterbo" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 3,
+    "meanService" : 2.55,
+    "meanArrival" : 4.0,
+    "totalConnection" : ["udienza preliminare"],
+    "connection": {"udienza preliminare": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "procuraRieti" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 4,
+    "meanService" : 3.05,
+    "meanArrival" : 4.0,
+    "totalConnection" : ["udienza preliminare"],
+    "connection": {"udienza preliminare": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "udienza preliminare" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 5,
+    "meanService" : 0.375,
+    "totalConnection" : ["procuraRoma","procuraLatina","procuraFrosinone","procuraViterbo","procuraRieti","primo grado monocratico", "tribunale","corte appello","end"],
+    "connection": {
+      "primo grado monocratico":0.17 ,
+      "corte appello": 0.0015,
+      "tribunale": 0.0085,
+      "procuraRoma": 0.38,
+      "procuraLatina": 0.08,
+      "procuraFrosinone": 0.07,
+      "procuraViterbo": 0.05,
+      "procuraRieti": 0.02,
+      "end": 0.31
+    },
+    "type": "single server",
+    "distribution" : "Exponential"
+
+  },
+
+  "primo grado monocratico" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 6,
+    "meanService" : 1.79,
+    "totalConnection" : ["tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti","tribunale"],
+    "connection":
+      {
+        "tribunale" : 0.07,
+        "corte appello" : 0.01,
+        "tribunale fisico Roma": 0.67,
+        "tribunale fisico Latina": 0.11,
+        "tribunale fisico Frosinone": 0.07,
+        "tribunale fisico Viterbo": 0.04,
+        "tribunale fisico Rieti": 0.02,
+      },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "tribunale" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 7,
+    "meanService" : 23.0,
+    "totalConnection" : ["tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti"],
+    "connection":
+    {
+      "tribunale fisico Roma": 0.72,
+      "tribunale fisico Latina": 0.12,
+      "tribunale fisico Frosinone": 0.8,
+      "tribunale fisico Viterbo": 0.5,
+      "tribunale fisico Rieti": 0.2
+    },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "tribunale fisico Latina" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 8,
+    "meanService" : 1.0,
+    "totalConnection" : ["tribunale","corte appello", "primo grado monocratico","corte cassazione", "end"],
+    "connection": {"tribunale": 0.07 , "corte appello":  0.01, "primo grado monocratico": 0.19 ,"end": 0.8199 , "corte cassazione" :  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+  },
+
+  "tribunale fisico Frosinone" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 9,
+    "meanService" : 1.0,
+    "totalConnection" : ["tribunale","corte appello", "primo grado monocratico","corte cassazione", "end"],
+    "connection": {"tribunale": 0.07 , "corte appello":  0.01, "primo grado monocratico": 0.19 ,"end": 0.8199 , "corte cassazione" :  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+  },
+
+  "tribunale fisico Viterbo" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 10,
+    "meanService" : 1.0,
+    "totalConnection" : ["tribunale","corte appello", "primo grado monocratico","corte cassazione", "end"],
+    "connection": {"tribunale": 0.07 , "corte appello":  0.01, "primo grado monocratico": 0.19 ,"end": 0.8199 , "corte cassazione" :  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+  },
+
+  "tribunale fisico Rieti" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 11,
+    "meanService" : 1.0,
+    "totalConnection" : ["tribunale","corte appello", "primo grado monocratico","corte cassazione", "end"],
+    "connection": {"tribunale": 0.07 , "corte appello":  0.01, "primo grado monocratico": 0.19 ,"end": 0.8199 , "corte cassazione" :  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+  },
+
+  "tribunale fisico Roma" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 12,
+    "meanService" : 1.0,
+    "totalConnection" : ["tribunale","corte appello", "primo grado monocratico","corte cassazione", "end"],
+    "connection": {"tribunale": 0.07 , "corte appello":  0.01, "primo grado monocratico": 0.19 ,"end": 0.8199 , "corte cassazione" :  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+  },
+
+
+  "corte appello" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 170,
+    "meanService" : 80.0,
+    "totalConnection" : ["corte appello fisica"],
+    "connection": {
+      "corte appello fisica": 1.0 },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "corte appello fisica" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 172,
+    "meanService" : 1.0,
+    "totalConnection" : ["end","corte assise", "corte cassazione"],
+    "connection": {"end": 0.859 , "corte assise":  0.14, "corte cassazione": 0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+
+  },
+
+  "corte assise" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 198,
+    "meanService" : 250.0,
+    "totalConnection" : ["corte assise fisica" ],
+    "connection": {
+      "corte assise fisica": 1.0
+      },
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "corte assise fisica" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 199,
+    "meanService" : 1.0,
+    "totalConnection" : ["end","corte cassazione"],
+    "connection": {"end": 0.999 , "corte cassazione":  0.001},
+    "type": "single server",
+    "distribution" : "Deterministic"
+
+  },
+
+  "corte cassazione" : {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 225,
+    "meanService" : 143.0,
+    "totalConnection" : ["corte cassazione fisica"],
+    "connection": {"corte cassazione fisica":1.0},
+    "type": "single server",
+    "distribution" : "Pareto"
+
+  },
+
+  "corte cassazione fisica" :  {
+    "initialjobNumbers": 0,
+    "streamSimulation" : 226,
+    "meanService" : 1.0,
+    "totalConnection" : ["end"],
+    "connection": {"end": 1.0 },
+    "type": "single server",
+    "distribution" : "Deterministic"
+  }
+}
