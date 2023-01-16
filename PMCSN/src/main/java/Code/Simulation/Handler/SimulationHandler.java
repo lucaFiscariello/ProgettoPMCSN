@@ -72,8 +72,8 @@ public class SimulationHandler {
         return jobsDepar;
     }
 
-    public static void inizializeDataCollector(Server server, int runNumber){
-        dataCollector.Inizialize(server,runNumber);
+    public static void inizializeDataCollector(Server server, int runNumber,String configuration){
+        dataCollector.Inizialize(server,runNumber,configuration);
     }
 
 

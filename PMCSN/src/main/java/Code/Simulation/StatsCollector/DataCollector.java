@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class DataCollector {
     private  Server server;
     private int runNumber;
+
+    private String configuration;
     private ArrayList<Double> averageServiceTime = new ArrayList<>();
     private ArrayList<Double> averageDelayTime = new ArrayList<>();
     private ArrayList<Double> averageWaitTime = new ArrayList<>();
@@ -17,9 +19,10 @@ public class DataCollector {
     private ArrayList<Double> averageJobNode= new ArrayList<>();
     private ArrayList<Double> averagePercEnd= new ArrayList<>();
 
-    public void Inizialize(Server server,int runNumber){
+    public void Inizialize(Server server,int runNumber,String configuration){
         this.server = server;
         this.runNumber=runNumber;
+        this.configuration = configuration;
     }
 
     public void collectData() {
@@ -59,8 +62,14 @@ public class DataCollector {
             Table datasetEndJobs = Table.create();
             datasetEndJobs.addColumns(columnPerc);
 
-            dataset.write().csv("CSV//Modello iniziale//"+server.getId()+".csv");
-            datasetEndJobs.write().csv("perc.csv");
+            if(!configuration.contains("Improve")){
+                dataset.write().csv("CSV//Modello iniziale//"+server.getId()+".csv");
+                datasetEndJobs.write().csv("perc.csv");
+            }
+            else{
+                dataset.write().csv("CSV//Modello migliorato//versione"+configuration.charAt(configuration.length()-6)+"//"+server.getId()+".csv");
+            }
+
         }
 
     }

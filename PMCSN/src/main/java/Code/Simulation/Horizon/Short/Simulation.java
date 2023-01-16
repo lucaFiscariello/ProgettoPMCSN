@@ -23,7 +23,7 @@ public class Simulation {
         //Inizializzo L'handler della simulazione per raccogliere dati di un server specifico
         Network network = new Network(configuration,rngs);
         Server server= network.getNodeById(serverOfInteress).getServer();
-        SimulationHandler.inizializeDataCollector(server,stop);
+        SimulationHandler.inizializeDataCollector(server,stop,configuration);
 
         network.initialize();
 

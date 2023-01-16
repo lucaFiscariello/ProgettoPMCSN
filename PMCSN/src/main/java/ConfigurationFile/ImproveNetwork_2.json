@@ -1,81 +1,29 @@
 {
   "totalId" :  ["udienza preliminare","primo grado monocratico","tribunale","corte appello","corte assise","corte cassazione","corte cassazione fisica",
-                "corte assise fisica" , "procuraRoma","procuraLatina","procuraFrosinone","procuraViterbo","procuraRieti",
+                "corte assise fisica" , "procura",
                 "corte appello fisica" , "tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti" ],
-    "procuraRoma" : {
+    "procura" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 0,
-    "meanService" : 0.8,
-    "meanArrival" : 4.0,
+    "meanService" : 1.602,
+    "meanArrival" : 0.8,
     "totalConnection" : ["udienza preliminare"],
     "connection": {"udienza preliminare": 1.0 },
-    "type": "single server",
+    "type": "multi server",
+      "numberServer" : 5,
     "distribution" : "Pareto"
-
-  },
-
-  "procuraLatina" : {
-    "initialjobNumbers": 0,
-    "streamSimulation" : 1,
-    "meanService" : 3.5,
-    "meanArrival" : 4.0,
-    "totalConnection" : ["udienza preliminare"],
-    "connection": {"udienza preliminare": 1.0 },
-    "type": "single server",
-    "distribution" : "Pareto"
-
-  },
-
-  "procuraFrosinone" : {
-    "initialjobNumbers": 0,
-    "streamSimulation" : 2,
-    "meanService" : 2.15,
-    "meanArrival" : 4.0,
-    "totalConnection" : ["udienza preliminare"],
-    "connection": {"udienza preliminare": 1.0 },
-    "type": "single server",
-    "distribution" : "Pareto"
-
-  },
-
-  "procuraViterbo" : {
-    "initialjobNumbers": 0,
-    "streamSimulation" : 3,
-    "meanService" : 2.55,
-    "meanArrival" : 4.0,
-    "totalConnection" : ["udienza preliminare"],
-    "connection": {"udienza preliminare": 1.0 },
-    "type": "single server",
-    "distribution" : "Pareto"
-
-  },
-
-  "procuraRieti" : {
-    "initialjobNumbers": 0,
-    "streamSimulation" : 4,
-    "meanService" : 3.05,
-    "meanArrival" : 4.0,
-    "totalConnection" : ["udienza preliminare"],
-    "connection": {"udienza preliminare": 1.0 },
-    "type": "single server",
-    "distribution" : "Pareto"
-
   },
 
   "udienza preliminare" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 5,
-    "meanService" : 0.375,
-    "totalConnection" : ["procuraRoma","procuraLatina","procuraFrosinone","procuraViterbo","procuraRieti","primo grado monocratico", "tribunale","corte appello","end"],
+    "meanService" : 0.315,
+    "totalConnection" : ["procura","primo grado monocratico", "tribunale","corte appello","end"],
     "connection": {
       "primo grado monocratico":0.17 ,
       "corte appello": 0.0015,
       "tribunale": 0.0085,
-      "procuraRoma": 0.38,
-      "procuraLatina": 0.08,
-      "procuraFrosinone": 0.07,
-      "procuraViterbo": 0.05,
-      "procuraRieti": 0.02,
+      "procura": 0.6,
       "end": 0.31
     },
     "type": "single server",
@@ -86,7 +34,7 @@
   "primo grado monocratico" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 6,
-    "meanService" : 1.79,
+    "meanService" : 1.48,
     "totalConnection" : ["tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti","tribunale"],
     "connection":
       {
@@ -106,7 +54,7 @@
   "tribunale" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 7,
-    "meanService" : 23.0,
+    "meanService" : 15.0,
     "totalConnection" : ["tribunale fisico Roma" , "tribunale fisico Latina" , "tribunale fisico Frosinone" , "tribunale fisico Viterbo" , "tribunale fisico Rieti"],
     "connection":
     {
@@ -175,7 +123,7 @@
   "corte appello" : {
     "initialjobNumbers": 0,
     "streamSimulation" : 170,
-    "meanService" : 80.0,
+    "meanService" : 75.0,
     "totalConnection" : ["corte appello fisica"],
     "connection": {
       "corte appello fisica": 1.0 },

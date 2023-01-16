@@ -15,9 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Network {
     private HashMap<String,Node> allNode;
@@ -115,11 +113,16 @@ public class Network {
 
     public void initialize(){
 
-        SimulationHandler.insertEvent(new Event(allNode.get("procuraRoma"), Event.Type.arrival,0.0));
-        SimulationHandler.insertEvent(new Event(allNode.get("procuraLatina"), Event.Type.arrival,0.0));
-        SimulationHandler.insertEvent(new Event(allNode.get("procuraViterbo"), Event.Type.arrival,0.0));
-        SimulationHandler.insertEvent(new Event(allNode.get("procuraRieti"), Event.Type.arrival,0.0));
-        SimulationHandler.insertEvent(new Event(allNode.get("procuraFrosinone"), Event.Type.arrival,0.0));
+        ArrayList<String> serverToInizialize = new ArrayList<>(
+                Arrays.asList("procuraRoma", "procuraLatina","procuraViterbo","procuraRieti","procuraFrosinone","procura"));
+
+        for( String nodeId : serverToInizialize){
+            Node node = allNode.get(nodeId);
+            if(node!=null)
+                SimulationHandler.insertEvent(new Event(node, Event.Type.arrival,0.0));
+        }
+
+
 
         for (Node node: allNode.values()) {
             Server server = node.getServer();

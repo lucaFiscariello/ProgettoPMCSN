@@ -11,8 +11,8 @@ public class MainShortSimulation {
         int stop = 1000000;
         int seed = 100;
 
-        String serverOfInteress="corte assise";
-        String configuration = "src/main/java/ConfigurationFile/InitialNetwork2.json";
+        String serverOfInteress="tribunale";
+        String configuration = "src/main/java/ConfigurationFile/ImproveNetwork_3.json";
 
         Simulation.simule(stop,configuration,seed,serverOfInteress);
 

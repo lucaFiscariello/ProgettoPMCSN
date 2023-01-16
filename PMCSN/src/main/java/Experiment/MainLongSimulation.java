@@ -7,7 +7,7 @@ import java.io.IOException;
 public class MainLongSimulation {
 
     public static void main(String[] args) throws IOException, ParseException {
-        BatchMeans batchMeans = new BatchMeans(32,70000,"src/main/java/ConfigurationFile/InitialNetwork2.json");
+        BatchMeans batchMeans = new BatchMeans(32,70000,"src/main/java/ConfigurationFile/InitialNetwork.json");
         batchMeans.simule();
     }
 
