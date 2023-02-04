@@ -104,7 +104,7 @@ public class MultiServer implements Server {
     public void processCompletition(double timeNext, double service){
 
         //Usato per calcolare autocorrelazione
-        this.statsHandler.addServiceTime(service);
+        this.statsHandler.addForCorrelation(statsHandler.getAverageWait());
 
         if (jobNumbers > 0)   {
             double jobsQueue = (jobNumbers<this.serverNumber)? 0:jobNumbers-serverNumber;
@@ -264,7 +264,7 @@ public class MultiServer implements Server {
             allStats.put("average # in the node", areaNode / (SimulationHandler.getCurrentTime()-lastUpdateBatch));
 
             statsHandler.saveStats(allStats);
-            statsHandler.cleanBatchServiceTime();
+            statsHandler.cleanBatchCorrelation();
 
         }
 

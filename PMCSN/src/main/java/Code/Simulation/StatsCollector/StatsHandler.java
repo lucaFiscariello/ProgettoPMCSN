@@ -28,7 +28,7 @@ public class StatsHandler {
     private double sumUtilization;
     private double sumNumberQueue;
     private double sumNumberNode;
-    private ArrayList<Double> allServiceGenerate = new ArrayList<>();
+    private ArrayList<Double> valueForCorrelation = new ArrayList<>();
     private double autocorrelation;
     private int departedJob;
 
@@ -96,25 +96,16 @@ public class StatsHandler {
 
         departedJob=departedJob+(int)allStats.get("departed Jobs");
 
-        double num=0;
-        double den=0;
-
-        for(int i =0; i<this.allServiceGenerate.size()-1;i++){
-            num = num+ (allServiceGenerate.get(i)-this.averageServiceTime)*(allServiceGenerate.get(i+1)-this.averageServiceTime);
-            den = den +(allServiceGenerate.get(i+1)-this.averageServiceTime)*(allServiceGenerate.get(i+1)-this.averageServiceTime);
-        }
-
-        if(den!=0)
-         this.autocorrelation=(num/den);
+        this.autocorrelation = calculateAutocorrelation();
 
     }
 
-    public void addServiceTime(double service){
-        this.allServiceGenerate.add(service);
+    public void addForCorrelation(double service){
+        this.valueForCorrelation.add(service);
     }
 
-    public void cleanBatchServiceTime(){
-        this.allServiceGenerate = new ArrayList<>();
+    public void cleanBatchCorrelation(){
+        this.valueForCorrelation = new ArrayList<>();
     }
 
 
@@ -174,11 +165,40 @@ public class StatsHandler {
         return stdDevNumberNode;
     }
 
+    public double calculateAutocorrelation(){
+
+        int lag=1;
+        int n = valueForCorrelation.size();
+        double mean = 0.0;
+        double sumOfSquaredDifferences = 0.0;
+
+        for (Double aDouble : valueForCorrelation) {
+            mean += aDouble;
+        }
+        mean /= n;
+
+        for (double value : valueForCorrelation) {
+            sumOfSquaredDifferences += (value - mean) * (value - mean);
+        }
+
+        double numerator = 0.0;
+        for (int i = 0; i < n - lag; i++) {
+            double value1 = valueForCorrelation.get(i);
+            double value2 = valueForCorrelation.get(i + lag);
+            numerator += (value1 - mean) * (value2 - mean);
+        }
+
+        return numerator / sumOfSquaredDifferences;
+    }
+
     public double getAutocorrelation(){
         return this.autocorrelation;
     }
 
+
     public int getDepartedJob(){
         return this.departedJob;
     }
+
+
 }

@@ -72,7 +72,7 @@ public class SingleServer implements Server {
     public void processCompletition(double timeNext, double timeCurrent){
 
         //Usato per calcolare autocorrelazione
-        this.statsHandler.addServiceTime(timeNext - lastTimeEvent);
+        this.statsHandler.addForCorrelation(statsHandler.getAverageWait());
 
         if (jobNumbers > 0)  {                               /* update integrals  */
             areaNode    += (timeNext - lastTimeEvent) * jobNumbers;
@@ -149,7 +149,7 @@ public class SingleServer implements Server {
         printout.println("   std # in the node ... = "+ statsHandler.getStdDevNumberNode()+"\n" );
         printout.println("   std # in the queue .. = "+ statsHandler.getStdDevNumberQueue()+"\n" );
         printout.println("   std utilization ............. = "+ statsHandler.getStdDevUtilization()+"\n" );
-        printout.println("   autocorrelation .. = "+ statsHandler.getAutocorrelation()+"\n" );
+        printout.println("   autocorrelation .. = "+ statsHandler.getAutocorrelation()+"E-1\n" );
         printout.println("   departedJob .. = "+ statsHandler.getDepartedJob()+"\n" );
 
         printout.close();
@@ -173,7 +173,7 @@ public class SingleServer implements Server {
 
 
             statsHandler.saveStats(allStats);
-            statsHandler.cleanBatchServiceTime();
+            statsHandler.cleanBatchCorrelation();
         }
 
         this.departedJobs=0;
