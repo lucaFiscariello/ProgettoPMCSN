@@ -35,12 +35,6 @@ public class DataCollector {
             utilization.add(statistics.getUtilization());
             averageJobQueue.add(statistics.getAverageJobQueue());
             averageJobNode.add(statistics.getAverageJobNode());
-
-            //int total = network.getNodeById("udienza preliminare").getServer().getStatistics().getArrival();
-            //int end = network.getNodeById("udienza preliminare").getServer().getStatistics().getEndJobNumber();
-            //double perc = (double) end/total;
-
-            //averagePercEnd.add(perc);
         }
 
     }

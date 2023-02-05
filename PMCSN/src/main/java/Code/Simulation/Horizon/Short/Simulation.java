@@ -34,7 +34,6 @@ public class Simulation {
             nextEvent = SimulationHandler.extractMinEvent();
             nextNode = nextEvent.getNode();
             nextNode.handleEvent(nextEvent, SimulationHandler.getCurrentTime());
-            //System.out.println(SimulationHandler.getJobsDepar());
         }
 
         for (Node node: network.getAllNode().values()) {

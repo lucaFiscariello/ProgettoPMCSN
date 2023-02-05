@@ -95,15 +95,6 @@ public class Network {
         Node prevNode = this.allNode.get(idServerPrev);
         String idNextNode = prevNode.getNextServerId();
 
-        /**
-         * if(prevNode.getId().equals("udienza preliminare") && idNextNode!= null && idNextNode.equals("primo grado monocratico")){
-         *             Server mono = getNodeById("primo grado monocratico").getServer();
-         *             if(mono.getStatistics().getUtilization()>0.99999)
-         *                 return null;
-         *         }
-         */
-
-
         return this.allNode.get(idNextNode);
     }
 
